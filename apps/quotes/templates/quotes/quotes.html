@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quotes</title>
+    {% load staticfiles %}
+     <!-- The line above tells Django to be ready to listen for static files -->
+     <link rel="stylesheet" href="{% static 'css/quotes.css' %}" media="screen" title="no title"  charset="utf-8">
+  </head>
+  <body>
+      <h1>Welcome, {{request.session.name}}</h1>
+      {% if messages %}
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+      {% endif %}
+      <h2>Quotable Quotes</h2>
+      {% for quote in quotes %}
+        <p>{{quote.quote}}</p>
+        <form action="/add_fave" method="post">
+            {% csrf_token %}
+            <p>Posted by <a href="users/{{user.id}}">{{request.session.name}}</a></p>
+            <input type="submit" name="submit" value="Add To My List">
+        </form>
+      {% endfor %}
+      <h1>Your Favorites</h1>
+          <p>"I consider myself the luckiest man on the face of the planet!" - Lou Gehring</p>
+          <form action="/remove_quote" method="post">
+              {% csrf_token %}
+              <p>Posted by <a href="users/{{user.id}}">{{request.session.name}}</a></p>
+              <input type="submit" name="submit" value="Remove From My List">
+          </form>
+          <p>"Who knew health care could be so complicated?" - Donald Trump</p>
+          <form action="/remove_quote" method="post">
+              {% csrf_token %}
+              <p>Posted by <a href="users/{{user.id}}">{{request.session.name}}</a></p>
+              <input type="submit" name="submit" value="Remove From My List">
+          </form>
+          <p>"I've missed more game winning shots than anybody in NBA history" - Michael Jordan</p>
+          <form action="/remove_quote" method="post">
+              {% csrf_token %}
+              <p>Posted by <a href="users/{{user.id}}">{{request.session.name}}</a></p>
+              <input type="submit" name="submit" value="Remove From My List">
+          </form>
+      <h1>Contribute a Quote</h1>
+      <form action="/add_fave" method="post">
+          {% csrf_token %}
+          <p>Quoted By: <input type="text" name="poster"></p>
+          <p>Message: <textarea name="quote" rows="8" cols="150"></textarea></p>
+          <input type="submit" name="submit" value="Submit">
+      </form><br>
+      <a href="/">LOG OUT</a>
+  </body>
+</html>
